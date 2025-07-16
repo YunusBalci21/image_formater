@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Format Converter Pro - by Yunus Emre Balci</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 30px 0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .upload-area {
+            border: 3px dashed #4a90e2;
+            border-radius: 15px;
+            padding: 60px 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #f8f9fa;
+        }
+
+        .upload-area:hover {
+            border-color: #2a5298;
+            background: #e8f0fe;
+        }
+
+        .upload-area.dragover {
+            border-color: #2a5298;
+            background: #e8f0fe;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 60px;
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+
+        .upload-text {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .upload-subtext {
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .format-selection {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .format-option {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .format-option:hover {
+            border-color: #4a90e2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.2);
+        }
+
+        .format-option.selected {
+            border-color: #4a90e2;
+            background: #e8f0fe;
+            font-weight: bold;
+        }
+
+        .file-list {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .file-thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .file-size {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .file-status {
+            text-align: right;
+            font-size: 0.9em;
+        }
+
+        .status-pending { color: #999; }
+        .status-processing { color: #ff9800; }
+        .status-complete { color: #4caf50; }
+        .status-error { color: #f44336; }
+
+        .convert-button {
+            display: none;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #4a90e2 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .convert-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .convert-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .progress-bar {
+            display: none;
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4a90e2 0%, #2a5298 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .credits {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .credits h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+        }
+
+        .credits p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .credits a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .credits a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #e8f0fe;
+            transform: translateY(-2px);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: #4a90e2;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .feature-desc {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        .zip-option {
+            margin-top: 20px;
+            display: none;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .zip-toggle {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .zip-toggle input {
+            margin-right: 10px;
+        }
+        
+        .zip-label {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .zip-info {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+            display: none;
+        }
+        
+        .zip-option.active .zip-info {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .main-card {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .format-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .social-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖼️ Image Format Converter Pro</h1>
+            <p class="subtitle">Convert multiple images between formats instantly - HEIC, JPEG, PNG, WebP & more!</p>
+        </header>
+
+        <div class="main-card">
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <p class="upload-text">Drop images here or click to browse</p>
+                <p class="upload-subtext">Support for HEIC, JPEG, PNG, WebP, BMP, GIF and more</p>
+                <input type="file" id="fileInput" multiple accept="image/*,.heic,.heif">
+            </div>
+
+            <div class="format-selection" id="formatSelection">
+                <h3>Select output format:</h3>
+                <div class="format-grid">
+                    <div class="format-option" data-format="jpeg">JPEG</div>
+                    <div class="format-option" data-format="png">PNG</div>
+                    <div class="format-option" data-format="webp">WebP</div>
+                    <div class="format-option" data-format="bmp">BMP</div>
+                    <div class="format-option" data-format="gif">GIF</div>
+                    <div class="format-option" data-format="tiff">TIFF</div>
+                </div>
+            </div>
+            
+            <div class="zip-option" id="zipOption">
+                <div class="zip-toggle">
+                    <input type="checkbox" id="zipCheckbox">
+                    <span class="zip-label">Download as ZIP archive when finished</span>
+                </div>
+                <div class="zip-info">
+                    <p>All converted images will be packaged into a single ZIP file for easy download.</p>
+                </div>
+            </div>
+
+            <div class="file-list" id="fileList"></div>
+
+            <button class="convert-button" id="convertButton">Convert All Images</button>
+
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">Lightning Fast</div>
+                    <div class="feature-desc">Batch convert multiple images simultaneously</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-title">100% Private</div>
+                    <div class="feature-desc">All processing happens in your browser</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📦</div>
+                    <div class="feature-title">ZIP Download</div>
+                    <div class="feature-desc">Get all converted files in a single ZIP archive</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="credits">
+            <h3>Created by Yunus Emre Balci</h3>
+            <p>
+                BSc Computer Science Student | AI & Full-Stack Developer<br>
+                Passionate about creating useful tools and open-source projects
+            </p>
+            <div class="social-links">
+                <a href="https://github.com/YunusBalci21" target="_blank" class="social-link">
+                    <span>🐙 GitHub</span>
+                </a>
+                <a href="https://www.linkedin.com/in/yunus-emre-balci/" target="_blank" class="social-link">
+                    <span>💼 LinkedIn</span>
+                </a>
+                <a href="http://yunusbalci21.github.io" target="_blank" class="social-link">
+                    <span>🌐 Portfolio</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.4/heic2any.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <script>
+        let selectedFiles = [];
+        let selectedFormat = null;
+        let downloadAsZip = false;
+        let convertedFiles = [];
+
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const formatSelection = document.getElementById('formatSelection');
+        const zipOption = document.getElementById('zipOption');
+        const zipCheckbox = document.getElementById('zipCheckbox');
+        const fileList = document.getElementById('fileList');
+        const convertButton = document.getElementById('convertButton');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+
+        // File upload handling
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        // ZIP download toggle
+        zipCheckbox.addEventListener('change', () => {
+            downloadAsZip = zipCheckbox.checked;
+            if (downloadAsZip) {
+                zipOption.classList.add('active');
+            } else {
+                zipOption.classList.remove('active');
+            }
+        });
+
+        function handleFiles(files) {
+            selectedFiles = Array.from(files);
+            displayFiles();
+            formatSelection.style.display = 'block';
+            zipOption.style.display = 'block';
+            fileList.style.display = 'block';
+        }
+
+        function displayFiles() {
+            fileList.innerHTML = '';
+            selectedFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <img class="file-thumbnail" id="thumb-${index}" src="">
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${formatFileSize(file.size)}</div>
+                    </div>
+                    <div class="file-status status-pending" id="status-${index}">Ready</div>
+                `;
+                fileList.appendChild(fileItem);
+
+                // Create thumbnail
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById(`thumb-${index}`).src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Format selection
+        document.querySelectorAll('.format-option').forEach(option => {
+            option.addEventListener('click', () => {
+                document.querySelectorAll('.format-option').forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                selectedFormat = option.dataset.format;
+                convertButton.style.display = 'block';
+            });
+        });
+
+        // Convert button
+        convertButton.addEventListener('click', async () => {
+            if (!selectedFormat || selectedFiles.length === 0) return;
+            
+            // Reset for new conversion
+            convertedFiles = [];
+            convertButton.disabled = true;
+            progressBar.style.display = 'block';
+            progressFill.style.width = '0%';
+            
+            const totalFiles = selectedFiles.length;
+            let processedFiles = 0;
+
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const file = selectedFiles[i];
+                const statusEl = document.getElementById(`status-${i}`);
+                
+                statusEl.textContent = 'Processing...';
+                statusEl.className = 'file-status status-processing';
+
+                try {
+                    const convertedFile = await convertImage(file, selectedFormat);
+                    
+                    if (downloadAsZip) {
+                        // Store for ZIP download later
+                        convertedFiles.push(convertedFile);
+                        statusEl.textContent = 'Converted (ZIP)';
+                    } else {
+                        // Download immediately
+                        downloadConvertedImage(convertedFile.blob, convertedFile.name);
+                        statusEl.textContent = 'Downloaded';
+                    }
+                    statusEl.className = 'file-status status-complete';
+                } catch (error) {
+                    statusEl.textContent = 'Error';
+                    statusEl.className = 'file-status status-error';
+                    console.error('Conversion error:', error);
+                }
+
+                processedFiles++;
+                progressFill.style.width = `${(processedFiles / totalFiles) * 100}%`;
+            }
+
+            // Create and download ZIP if requested
+            if (downloadAsZip && convertedFiles.length > 0) {
+                createAndDownloadZip();
+            }
+            
+            convertButton.disabled = false;
+        });
+
+        async function convertImage(file, outputFormat) {
+            return new Promise((resolve, reject) => {
+                const isHeic = file.name.toLowerCase().endsWith('.heic') || file.name.toLowerCase().endsWith('.heif');
+                const newName = file.name.replace(/\.[^/.]+$/, `.${outputFormat}`);
+                
+                if (isHeic && typeof heic2any !== 'undefined') {
+                    // Convert HEIC to desired format
+                    heic2any({
+                        blob: file,
+                        toType: `image/${outputFormat}`,
+                        quality: 0.9
+                    }).then(convertedBlob => {
+                        resolve({ blob: convertedBlob, name: newName });
+                    }).catch(reject);
+                } else {
+                    // Convert other formats using Canvas
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0);
+                            
+                            canvas.toBlob((blob) => {
+                                resolve({ blob, name: newName });
+                            }, `image/${outputFormat}`, 0.9);
+                        };
+                        img.onerror = reject;
+                        img.src = e.target.result;
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function downloadConvertedImage(blob, fileName) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function createAndDownloadZip() {
+            const zip = new JSZip();
+            const folder = zip.folder("converted_images");
+            
+            // Add all converted files to the ZIP
+            convertedFiles.forEach(file => {
+                folder.file(file.name, file.blob);
+            });
+            
+            // Generate the ZIP file
+            zip.generateAsync({ type: "blob" }).then(content => {
+                // Download the ZIP
+                saveAs(content, "converted_images.zip");
+                
+                // Show success message
+                setTimeout(() => {
+                    alert(`Success! Your ${convertedFiles.length} images have been packaged into a ZIP file and downloaded.`);
+                }, 500);
+            });
+        }
+    </script>
+</body>
+</html>
