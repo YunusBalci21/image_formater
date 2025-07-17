@@ -181,7 +181,7 @@
             color: #4a90e2;
         }
 
-        .quality-control {
+        .optimization-controls {
             margin-top: 25px;
             display: none;
             background: #f8f9fa;
@@ -190,27 +190,35 @@
             border: 1px solid #e0e0e0;
         }
 
-        .quality-control.active {
+        .optimization-controls.active {
             display: block;
         }
 
-        .quality-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
+        .control-group {
+            margin-bottom: 20px;
         }
 
-        .quality-label {
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .control-label {
             font-weight: 600;
             color: #333;
         }
 
-        .quality-value {
+        .control-value {
             font-weight: 600;
             color: #4a90e2;
         }
 
-        .quality-slider {
+        .control-slider {
             width: 100%;
             height: 8px;
             -webkit-appearance: none;
@@ -219,7 +227,7 @@
             outline: none;
         }
 
-        .quality-slider::-webkit-slider-thumb {
+        .control-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 22px;
             height: 22px;
@@ -229,11 +237,53 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
-        .quality-hint {
+        .control-hint {
             margin-top: 10px;
             font-size: 0.9rem;
             color: #777;
             font-style: italic;
+        }
+
+        .size-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .size-control label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .size-control input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .size-settings {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f0fe;
+            border-radius: 8px;
+            border: 1px solid #d6e4ff;
+        }
+
+        .size-settings.active {
+            display: block;
+        }
+
+        .quality-badge {
+            background: #e8f0fe;
+            color: #2a5298;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+            display: inline-block;
         }
 
         .file-list {
@@ -292,6 +342,22 @@
         .status-complete { color: #28a745; font-weight: 600; }
         .status-error { color: #dc3545; font-weight: 500; }
 
+        .size-comparison {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .size-reduction {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .size-increase {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
         .convert-button {
             display: none;
             width: 100%;
@@ -322,22 +388,6 @@
             box-shadow: none;
         }
 
-        .convert-button::after {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -60%;
-            width: 40px;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: rotate(25deg);
-            transition: all 0.6s;
-        }
-
-        .convert-button:hover::after {
-            left: 110%;
-        }
-
         .progress-bar {
             display: none;
             width: 100%;
@@ -354,27 +404,34 @@
             background: linear-gradient(90deg, #4a90e2, #5d9cec, #6aafed);
             width: 0%;
             transition: width 0.4s ease;
-            position: relative;
         }
 
-        .progress-fill::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, 
-                        transparent 25%, transparent 50%, 
-                        rgba(255,255,255,0.1) 50%, 
-                        rgba(255,255,255,0.1) 75%, transparent 75%);
-            background-size: 40px 40px;
-            animation: progressAnimation 1s linear infinite;
+        .zip-option {
+            margin-top: 25px;
+            display: none;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
         }
-
-        @keyframes progressAnimation {
-            0% { background-position: 0 0; }
-            100% { background-position: 40px 0; }
+        
+        .zip-toggle {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .zip-toggle input {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .zip-label {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
         }
 
         .credits {
@@ -411,50 +468,6 @@
             font-size: 1.1rem;
         }
 
-        .credits a {
-            color: #4a90e2;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .credits a:hover {
-            color: #2a5298;
-            text-decoration: underline;
-        }
-
-        .social-links {
-            margin-top: 25px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            padding: 12px 25px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            color: #4a90e2;
-            font-weight: 500;
-            border: 1px solid #e0e0e0;
-        }
-
-        .social-link:hover {
-            background: #e8f0fe;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            color: #2a5298;
-        }
-
-        .social-link i {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -480,11 +493,6 @@
             font-size: 50px;
             color: #4a90e2;
             margin-bottom: 20px;
-            transition: transform 0.3s;
-        }
-
-        .feature:hover .feature-icon {
-            transform: scale(1.1);
         }
 
         .feature-title {
@@ -497,76 +505,6 @@
         .feature-desc {
             color: #666;
             font-size: 1.05rem;
-        }
-        
-        .zip-option {
-            margin-top: 25px;
-            display: none;
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .zip-toggle {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-        
-        .zip-toggle input {
-            margin-right: 15px;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-        
-        .zip-label {
-            font-weight: 600;
-            color: #333;
-            font-size: 1.1rem;
-        }
-        
-        .zip-info {
-            margin-top: 15px;
-            font-size: 1rem;
-            color: #666;
-            display: none;
-        }
-        
-        .zip-option.active .zip-info {
-            display: block;
-        }
-
-        .quality-badge {
-            background: #e8f0fe;
-            color: #2a5298;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-top: 10px;
-            display: inline-block;
-        }
-
-        .quality-info {
-            margin-top: 15px;
-            padding: 15px;
-            background: #e8f0fe;
-            border-radius: 8px;
-            border-left: 4px solid #4a90e2;
-        }
-
-        .quality-info h4 {
-            color: #2a5298;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        .quality-info p {
-            color: #555;
-            font-size: 0.95rem;
-            line-height: 1.5;
         }
 
         @media (max-width: 768px) {
@@ -582,45 +520,14 @@
                 grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
                 gap: 15px;
             }
-            
-            .social-links {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .upload-area {
-                padding: 40px 20px;
-            }
-            
-            .upload-text {
-                font-size: 1.1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-            }
-            
-            .format-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            
-            .feature {
-                padding: 25px 15px;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-exchange-alt"></i> High-Quality Image Converter Pro</h1>
-            <p class="subtitle">Convert images between formats with maximum quality preservation - HEIC, JPEG, PNG, WebP & more!</p>
+            <h1><i class="fas fa-exchange-alt"></i> Optimized Image Converter Pro</h1>
+            <p class="subtitle">Convert images with intelligent size optimization - smaller files, same quality!</p>
         </header>
 
         <div class="main-card">
@@ -637,17 +544,17 @@
                     <div class="format-option" data-format="jpeg">
                         <div class="format-icon"><i class="fas fa-file-image"></i></div>
                         <div>JPEG</div>
-                        <div class="quality-badge">High Quality</div>
+                        <div class="quality-badge">Optimized</div>
                     </div>
                     <div class="format-option" data-format="png">
                         <div class="format-icon"><i class="fas fa-file-image"></i></div>
                         <div>PNG</div>
-                        <div class="quality-badge">Lossless</div>
+                        <div class="quality-badge">Compressed</div>
                     </div>
                     <div class="format-option" data-format="webp">
                         <div class="format-icon"><i class="fas fa-file-image"></i></div>
                         <div>WebP</div>
-                        <div class="quality-badge">High Quality</div>
+                        <div class="quality-badge">Efficient</div>
                     </div>
                     <div class="format-option" data-format="bmp">
                         <div class="format-icon"><i class="fas fa-file-image"></i></div>
@@ -657,44 +564,61 @@
                     <div class="format-option" data-format="gif">
                         <div class="format-icon"><i class="fas fa-file-image"></i></div>
                         <div>GIF</div>
-                        <div class="quality-badge">Lossless</div>
+                        <div class="quality-badge">Animated</div>
                     </div>
                     <div class="format-option" data-format="tiff">
                         <div class="format-icon"><i class="fas fa-file-image"></i></div>
                         <div>TIFF</div>
-                        <div class="quality-badge">Lossless</div>
+                        <div class="quality-badge">Professional</div>
                     </div>
                 </div>
             </div>
             
-            <div class="quality-control" id="qualityControl">
-                <div class="quality-header">
-                    <span class="quality-label">Output Quality:</span>
-                    <span class="quality-value" id="qualityValue">98%</span>
+            <div class="optimization-controls" id="optimizationControls">
+                <div class="control-group">
+                    <div class="control-header">
+                        <span class="control-label">Quality Level:</span>
+                        <span class="control-value" id="qualityValue">95%</span>
+                    </div>
+                    <input type="range" min="60" max="100" value="95" class="control-slider" id="qualitySlider">
+                    <div class="control-hint" id="qualityHint">High quality with optimized compression</div>
                 </div>
-                <input type="range" min="80" max="100" value="98" class="quality-slider" id="qualitySlider">
-                <div class="quality-hint" id="qualityHint">Maximum quality with minimal compression</div>
-                
-                <div class="quality-info">
-                    <h4>Enhanced Quality Settings</h4>
-                    <p>This converter uses advanced algorithms to preserve maximum image quality. HEIC files are processed with professional-grade conversion maintaining color profiles and metadata.</p>
+
+                <div class="control-group">
+                    <div class="size-control">
+                        <input type="checkbox" id="resizeCheckbox">
+                        <label for="resizeCheckbox">Resize images to reduce file size</label>
+                    </div>
+                    <div class="size-settings" id="sizeSettings">
+                        <div class="control-group">
+                            <div class="control-header">
+                                <span class="control-label">Max Width:</span>
+                                <span class="control-value" id="maxWidthValue">1920px</span>
+                            </div>
+                            <input type="range" min="800" max="4000" value="1920" class="control-slider" id="maxWidthSlider">
+                        </div>
+                        <div class="control-group">
+                            <div class="control-header">
+                                <span class="control-label">Max Height:</span>
+                                <span class="control-value" id="maxHeightValue">1080px</span>
+                            </div>
+                            <input type="range" min="600" max="3000" value="1080" class="control-slider" id="maxHeightSlider">
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="zip-option" id="zipOption">
                 <div class="zip-toggle">
                     <input type="checkbox" id="zipCheckbox">
-                    <span class="zip-label">Download as ZIP archive when finished</span>
-                </div>
-                <div class="zip-info">
-                    <p>All converted images will be packaged into a single ZIP file for easy download.</p>
+                    <span class="zip-label">Download as ZIP archive</span>
                 </div>
             </div>
 
             <div class="file-list" id="fileList"></div>
 
             <button class="convert-button" id="convertButton">
-                <i class="fas fa-sync-alt"></i> Convert All Images
+                <i class="fas fa-sync-alt"></i> Convert & Optimize Images
             </button>
 
             <div class="progress-bar" id="progressBar">
@@ -703,43 +627,26 @@
 
             <div class="features">
                 <div class="feature">
-                    <div class="feature-icon"><i class="fas fa-star"></i></div>
-                    <div class="feature-title">Maximum Quality</div>
-                    <div class="feature-desc">Professional-grade conversion with color profile preservation</div>
+                    <div class="feature-icon"><i class="fas fa-compress-arrows-alt"></i></div>
+                    <div class="feature-title">Smart Compression</div>
+                    <div class="feature-desc">Intelligent algorithms reduce file size while preserving quality</div>
                 </div>
                 <div class="feature">
                     <div class="feature-icon"><i class="fas fa-lock"></i></div>
                     <div class="feature-title">Complete Privacy</div>
-                    <div class="feature-desc">All processing happens in your browser - no server uploads</div>
+                    <div class="feature-desc">All processing happens in your browser - no uploads</div>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
-                    <div class="feature-title">Lightning Fast</div>
-                    <div class="feature-desc">Optimized batch conversion with parallel processing</div>
+                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="feature-title">Size Monitoring</div>
+                    <div class="feature-desc">Real-time feedback on file size changes</div>
                 </div>
             </div>
         </div>
 
         <div class="credits">
-            <h3>Created by Yunus Emre Balci</h3>
-            <p>
-                BSc Computer Science Student | AI & Full-Stack Developer<br>
-                Passionate about creating useful tools and open-source projects
-            </p>
-            <div class="social-links">
-                <a href="https://github.com/YunusBalci21" target="_blank" class="social-link">
-                    <i class="fab fa-github"></i>
-                    <span>GitHub</span>
-                </a>
-                <a href="https://www.linkedin.com/in/yunus-emre-balci/" target="_blank" class="social-link">
-                    <i class="fab fa-linkedin"></i>
-                    <span>LinkedIn</span>
-                </a>
-                <a href="http://yunusbalci21.github.io" target="_blank" class="social-link">
-                    <i class="fas fa-globe"></i>
-                    <span>Portfolio</span>
-                </a>
-            </div>
+            <h3>Optimized Image Converter</h3>
+            <p>Enhanced with smart compression algorithms for better file size control</p>
         </div>
     </div>
 
@@ -753,15 +660,24 @@
         let selectedFormat = null;
         let downloadAsZip = false;
         let convertedFiles = [];
-        let quality = 98; // Higher default quality
+        let quality = 95;
+        let enableResize = false;
+        let maxWidth = 1920;
+        let maxHeight = 1080;
 
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
         const formatSelection = document.getElementById('formatSelection');
-        const qualityControl = document.getElementById('qualityControl');
+        const optimizationControls = document.getElementById('optimizationControls');
         const qualitySlider = document.getElementById('qualitySlider');
         const qualityValue = document.getElementById('qualityValue');
         const qualityHint = document.getElementById('qualityHint');
+        const resizeCheckbox = document.getElementById('resizeCheckbox');
+        const sizeSettings = document.getElementById('sizeSettings');
+        const maxWidthSlider = document.getElementById('maxWidthSlider');
+        const maxHeightSlider = document.getElementById('maxHeightSlider');
+        const maxWidthValue = document.getElementById('maxWidthValue');
+        const maxHeightValue = document.getElementById('maxHeightValue');
         const zipOption = document.getElementById('zipOption');
         const zipCheckbox = document.getElementById('zipCheckbox');
         const fileList = document.getElementById('fileList');
@@ -795,27 +711,57 @@
         qualitySlider.addEventListener('input', () => {
             quality = parseInt(qualitySlider.value);
             qualityValue.textContent = `${quality}%`;
-            
-            if (selectedFormat === 'jpeg' || selectedFormat === 'webp') {
-                if (quality >= 95) {
-                    qualityHint.textContent = 'Maximum quality with minimal compression';
-                } else if (quality >= 90) {
-                    qualityHint.textContent = 'High quality with good compression balance';
-                } else {
-                    qualityHint.textContent = 'Good quality with higher compression';
-                }
+            updateQualityHint();
+        });
+
+        // Resize controls
+        resizeCheckbox.addEventListener('change', () => {
+            enableResize = resizeCheckbox.checked;
+            if (enableResize) {
+                sizeSettings.classList.add('active');
+            } else {
+                sizeSettings.classList.remove('active');
             }
+        });
+
+        maxWidthSlider.addEventListener('input', () => {
+            maxWidth = parseInt(maxWidthSlider.value);
+            maxWidthValue.textContent = `${maxWidth}px`;
+        });
+
+        maxHeightSlider.addEventListener('input', () => {
+            maxHeight = parseInt(maxHeightSlider.value);
+            maxHeightValue.textContent = `${maxHeight}px`;
         });
 
         // ZIP download toggle
         zipCheckbox.addEventListener('change', () => {
             downloadAsZip = zipCheckbox.checked;
-            if (downloadAsZip) {
-                zipOption.classList.add('active');
-            } else {
-                zipOption.classList.remove('active');
-            }
         });
+
+        function updateQualityHint() {
+            if (selectedFormat === 'jpeg' || selectedFormat === 'webp') {
+                if (quality >= 95) {
+                    qualityHint.textContent = 'Maximum quality - larger file sizes';
+                } else if (quality >= 85) {
+                    qualityHint.textContent = 'High quality with good compression';
+                } else if (quality >= 75) {
+                    qualityHint.textContent = 'Good quality with smaller file sizes';
+                } else {
+                    qualityHint.textContent = 'Lower quality but smallest file sizes';
+                }
+            } else if (selectedFormat === 'png') {
+                if (quality >= 95) {
+                    qualityHint.textContent = 'Maximum PNG optimization - best quality';
+                } else if (quality >= 85) {
+                    qualityHint.textContent = 'Balanced PNG compression';
+                } else {
+                    qualityHint.textContent = 'Aggressive PNG compression - smallest size';
+                }
+            } else {
+                qualityHint.textContent = 'Quality setting for optimal compression';
+            }
+        }
 
         function handleFiles(files) {
             selectedFiles = Array.from(files);
@@ -835,6 +781,7 @@
                     <div class="file-info">
                         <div class="file-name">${file.name}</div>
                         <div class="file-size">${formatFileSize(file.size)}</div>
+                        <div class="size-comparison" id="comparison-${index}"></div>
                     </div>
                     <div class="file-status status-pending" id="status-${index}">Ready</div>
                 `;
@@ -857,6 +804,17 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
 
+        function calculateSizeChange(originalSize, newSize) {
+            const change = ((newSize - originalSize) / originalSize) * 100;
+            if (change > 5) {
+                return `<span class="size-increase">+${change.toFixed(1)}% larger</span>`;
+            } else if (change < -5) {
+                return `<span class="size-reduction">${change.toFixed(1)}% smaller</span>`;
+            } else {
+                return `<span>Similar size</span>`;
+            }
+        }
+
         // Format selection
         document.querySelectorAll('.format-option').forEach(option => {
             option.addEventListener('click', () => {
@@ -864,15 +822,8 @@
                 option.classList.add('selected');
                 selectedFormat = option.dataset.format;
                 convertButton.style.display = 'block';
-                
-                // Show/hide quality control based on format
-                if (selectedFormat === 'jpeg' || selectedFormat === 'webp') {
-                    qualityControl.classList.add('active');
-                    qualityHint.textContent = 'Maximum quality with minimal compression';
-                } else {
-                    qualityControl.classList.remove('active');
-                    qualityHint.textContent = "This format uses lossless compression";
-                }
+                optimizationControls.classList.add('active');
+                updateQualityHint();
             });
         });
 
@@ -880,7 +831,6 @@
         convertButton.addEventListener('click', async () => {
             if (!selectedFormat || selectedFiles.length === 0) return;
             
-            // Reset for new conversion
             convertedFiles = [];
             convertButton.disabled = true;
             progressBar.style.display = 'block';
@@ -892,19 +842,21 @@
             for (let i = 0; i < selectedFiles.length; i++) {
                 const file = selectedFiles[i];
                 const statusEl = document.getElementById(`status-${i}`);
+                const comparisonEl = document.getElementById(`comparison-${i}`);
                 
                 statusEl.textContent = 'Processing...';
                 statusEl.className = 'file-status status-processing';
 
                 try {
-                    const convertedFile = await convertImageHighQuality(file, selectedFormat, quality);
+                    const convertedFile = await convertImageOptimized(file, selectedFormat, quality, enableResize, maxWidth, maxHeight);
+                    
+                    // Update size comparison
+                    comparisonEl.innerHTML = calculateSizeChange(file.size, convertedFile.blob.size);
                     
                     if (downloadAsZip) {
-                        // Store for ZIP download later
                         convertedFiles.push(convertedFile);
                         statusEl.textContent = 'Converted (ZIP)';
                     } else {
-                        // Download immediately
                         downloadConvertedImage(convertedFile.blob, convertedFile.name);
                         statusEl.textContent = 'Downloaded';
                     }
@@ -919,7 +871,6 @@
                 progressFill.style.width = `${(processedFiles / totalFiles) * 100}%`;
             }
 
-            // Create and download ZIP if requested
             if (downloadAsZip && convertedFiles.length > 0) {
                 createAndDownloadZip();
             }
@@ -927,128 +878,154 @@
             convertButton.disabled = false;
         });
 
-        async function convertImageHighQuality(file, outputFormat, quality) {
+        async function convertImageOptimized(file, outputFormat, quality, enableResize, maxWidth, maxHeight) {
             return new Promise((resolve, reject) => {
                 const isHeic = file.name.toLowerCase().endsWith('.heic') || file.name.toLowerCase().endsWith('.heif');
                 const newName = file.name.replace(/\.[^/.]+$/, `.${outputFormat}`);
                 
                 if (isHeic && typeof heic2any !== 'undefined') {
-                    // Enhanced HEIC conversion with maximum quality
+                    // HEIC conversion with size optimization
+                    const heicQuality = Math.max(0.7, quality / 100);
                     heic2any({
                         blob: file,
                         toType: `image/${outputFormat}`,
-                        quality: quality / 100,
+                        quality: heicQuality,
                         multiple: false
                     }).then(convertedBlob => {
-                        // For HEIC, we already have the optimal conversion
-                        resolve({ blob: convertedBlob, name: newName });
-                    }).catch(error => {
-                        console.error('HEIC conversion error:', error);
-                        reject(error);
-                    });
+                        if (enableResize || outputFormat === 'png') {
+                            // Further optimize the converted blob
+                            optimizeImageBlob(convertedBlob, outputFormat, quality, enableResize, maxWidth, maxHeight)
+                                .then(optimizedBlob => {
+                                    resolve({ blob: optimizedBlob, name: newName });
+                                })
+                                .catch(reject);
+                        } else {
+                            resolve({ blob: convertedBlob, name: newName });
+                        }
+                    }).catch(reject);
                 } else {
-                    // Enhanced conversion for other formats
+                    // Regular image conversion with optimization
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         const img = new Image();
                         img.onload = () => {
-                            // Check if conversion is actually needed
-                            const currentFormat = getImageFormat(file.name);
-                            if (currentFormat === outputFormat && outputFormat !== 'jpeg' && outputFormat !== 'webp') {
-                                // If it's already the target format and lossless, return original
-                                resolve({ blob: file, name: file.name });
-                                return;
-                            }
-
-                            // Create high-quality canvas
                             const canvas = document.createElement('canvas');
                             const ctx = canvas.getContext('2d');
                             
-                            // Use original dimensions for maximum quality
-                            canvas.width = img.naturalWidth;
-                            canvas.height = img.naturalHeight;
+                            // Calculate optimal dimensions
+                            let { width, height } = calculateOptimalDimensions(img.naturalWidth, img.naturalHeight, enableResize, maxWidth, maxHeight);
                             
-                            // Enhanced rendering settings
-                            ctx.imageSmoothingEnabled = false; // Disable smoothing for pixel-perfect conversion
-                            ctx.globalCompositeOperation = 'source-over';
+                            canvas.width = width;
+                            canvas.height = height;
                             
-                            // Handle transparency properly
-                            if (outputFormat === 'png' || outputFormat === 'gif' || outputFormat === 'webp') {
-                                // Keep transparent background for formats that support it
-                                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                            } else if (outputFormat === 'jpeg' || outputFormat === 'bmp') {
-                                // Use white background for formats that don't support transparency
+                            // Optimize canvas settings
+                            ctx.imageSmoothingEnabled = true;
+                            ctx.imageSmoothingQuality = 'high';
+                            
+                            // Handle background for formats that don't support transparency
+                            if (outputFormat === 'jpeg' || outputFormat === 'bmp') {
                                 ctx.fillStyle = '#FFFFFF';
-                                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                                ctx.fillRect(0, 0, width, height);
                             }
                             
-                            // Draw image with pixel-perfect precision
-                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            // Draw image with optimized settings
+                            ctx.drawImage(img, 0, 0, width, height);
                             
-                            // Determine optimal quality settings
-                            let qualityParam = 1.0; // Default to maximum quality
+                            // Apply format-specific optimizations
+                            let qualityParam = calculateOptimalQuality(outputFormat, quality);
                             
-                            if (outputFormat === 'jpeg') {
-                                // For JPEG, use high quality settings
-                                qualityParam = Math.max(0.95, quality / 100);
-                            } else if (outputFormat === 'webp') {
-                                // For WebP, use high quality settings
-                                qualityParam = Math.max(0.95, quality / 100);
-                            }
-                            
-                            // Enhanced toBlob with error handling
-                            try {
-                                canvas.toBlob((blob) => {
-                                    if (blob) {
-                                        resolve({ blob, name: newName });
-                                    } else {
-                                        reject(new Error('Failed to create blob'));
-                                    }
-                                }, `image/${outputFormat}`, qualityParam);
-                            } catch (error) {
-                                reject(error);
-                            }
+                            canvas.toBlob((blob) => {
+                                if (blob) {
+                                    resolve({ blob, name: newName });
+                                } else {
+                                    reject(new Error('Failed to create blob'));
+                                }
+                            }, `image/${outputFormat}`, qualityParam);
                         };
                         
-                        img.onerror = () => {
-                            reject(new Error('Failed to load image'));
-                        };
-                        
+                        img.onerror = () => reject(new Error('Failed to load image'));
                         img.src = e.target.result;
                     };
                     
-                    reader.onerror = () => {
-                        reject(new Error('Failed to read file'));
-                    };
-                    
+                    reader.onerror = () => reject(new Error('Failed to read file'));
                     reader.readAsDataURL(file);
                 }
             });
         }
 
-        function getImageFormat(fileName) {
-            const extension = fileName.toLowerCase().split('.').pop();
-            switch (extension) {
-                case 'jpg':
-                case 'jpeg':
-                    return 'jpeg';
-                case 'png':
-                    return 'png';
-                case 'webp':
-                    return 'webp';
-                case 'bmp':
-                    return 'bmp';
-                case 'gif':
-                    return 'gif';
-                case 'tiff':
-                case 'tif':
-                    return 'tiff';
-                case 'heic':
-                case 'heif':
-                    return 'heic';
-                default:
-                    return 'unknown';
+        function calculateOptimalDimensions(originalWidth, originalHeight, enableResize, maxWidth, maxHeight) {
+            if (!enableResize) {
+                return { width: originalWidth, height: originalHeight };
             }
+
+            const aspectRatio = originalWidth / originalHeight;
+            let newWidth = originalWidth;
+            let newHeight = originalHeight;
+
+            // Scale down if necessary
+            if (newWidth > maxWidth) {
+                newWidth = maxWidth;
+                newHeight = newWidth / aspectRatio;
+            }
+
+            if (newHeight > maxHeight) {
+                newHeight = maxHeight;
+                newWidth = newHeight * aspectRatio;
+            }
+
+            return { width: Math.floor(newWidth), height: Math.floor(newHeight) };
+        }
+
+        function calculateOptimalQuality(format, quality) {
+            switch (format) {
+                case 'jpeg':
+                    return Math.max(0.6, quality / 100);
+                case 'webp':
+                    return Math.max(0.7, quality / 100);
+                case 'png':
+                    // PNG doesn't use quality parameter, but we can optimize differently
+                    return undefined;
+                default:
+                    return 1.0;
+            }
+        }
+
+        async function optimizeImageBlob(blob, outputFormat, quality, enableResize, maxWidth, maxHeight) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    let { width, height } = calculateOptimalDimensions(img.naturalWidth, img.naturalHeight, enableResize, maxWidth, maxHeight);
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    
+                    if (outputFormat === 'jpeg' || outputFormat === 'bmp') {
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.fillRect(0, 0, width, height);
+                    }
+                    
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    let qualityParam = calculateOptimalQuality(outputFormat, quality);
+                    
+                    canvas.toBlob((optimizedBlob) => {
+                        if (optimizedBlob) {
+                            resolve(optimizedBlob);
+                        } else {
+                            reject(new Error('Failed to optimize blob'));
+                        }
+                    }, `image/${outputFormat}`, qualityParam);
+                };
+                
+                img.onerror = () => reject(new Error('Failed to load image from blob'));
+                img.src = URL.createObjectURL(blob);
+            });
         }
 
         function downloadConvertedImage(blob, fileName) {
@@ -1064,29 +1041,18 @@
 
         function createAndDownloadZip() {
             const zip = new JSZip();
-            const folder = zip.folder("converted_images");
+            const folder = zip.folder("optimized_images");
             
-            // Add all converted files to the ZIP
             convertedFiles.forEach(file => {
                 folder.file(file.name, file.blob);
             });
             
-            // Generate the ZIP file
             zip.generateAsync({ 
                 type: "blob",
                 compression: "DEFLATE",
-                compressionOptions: { level: 1 } // Minimal compression to preserve quality
+                compressionOptions: { level: 6 }
             }).then(content => {
-                // Download the ZIP
-                saveAs(content, "converted_images.zip");
-                
-                // Show success message
-                setTimeout(() => {
-                    alert(`Success! Your ${convertedFiles.length} high-quality images have been packaged into a ZIP file and downloaded.`);
-                }, 500);
-            }).catch(error => {
-                console.error('ZIP creation error:', error);
-                alert('Error creating ZIP file. Please try again.');
+                saveAs(content, "optimized_images.zip");
             });
         }
     </script>
